@@ -7,6 +7,10 @@ atoms.
 
 TODO: Write me!!
 
+# Usage
+
+TODO: Write me!!
+
 # Acknowledgements
 
 TODO: Cite SIMCODES
