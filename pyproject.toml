@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atom2seq"
+version = "0.1.0"
+authors = [
+  { name="Ryan M. Richard", email="rrichard@ameslab.gov" },
+]
+description = "Detects primary structure of proteins given the Cartesian coordinates of the atoms"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "sphinx",
+    "sphinx-rtd-theme",
+    "flake8",
+    "python-semantic-release"
+]
+
+[tool.semantic_release]
+version_variable = "pyproject.toml:version"
+branch = "main"
