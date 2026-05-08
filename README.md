@@ -6,3 +6,7 @@ atoms.
 # Installation
 
 TODO: Write me!!
+
+# Acknowledgements
+
+TODO: Cite SIMCODES
