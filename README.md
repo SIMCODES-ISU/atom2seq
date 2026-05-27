@@ -9,4 +9,4 @@ TODO: Write me!!
 
 # Acknowledgements
 
-TODO: Cite SIMCODES
+This material is based upon work supported by the National Science Foundation under Grant No. 2348724.
