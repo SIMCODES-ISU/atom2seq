@@ -79,28 +79,21 @@ class Mol:
             m (int): The other index to check.
 
         Returns:
-            str: One of 's', 'd', 'h', 'n'. If 'n', the atoms passed in are not
-                bonded. Otherwise, they are bonded and the letter indicates the
-                type of bond: 's' is single, 'd' is double, and 'h' is
-                hydrogen.
+            Boolean: Whether the atoms are bonded.
         """
-        # Sets up two tracking variables
-        i = 0
-        found = False
-        # Sets the output to 'n', then enters a loop while it hasn't found a
+        # Sets the output to False, then enters a loop while it hasn't found a
         # bond between these atoms and it has't reached the last bond in the
         # list.
-        out = "n"
+        i = 0
+        found = False
         while (not found) and (i < len(self._bonds)):
             bond = self._bonds[i]
             if (bond[0] == n) and (bond[1] == m):
-                out = bond[2]
                 found = True
             elif (bond[1] == n) and (bond[0] == m):
-                out = bond[2]
                 found = True
             i += 1
-        return out
+        return found
 
     def del_bond(self, n, m):
         """Deletes a bond between the two given atoms.
@@ -108,6 +101,9 @@ class Mol:
         Parameters:
             n (int): One of the indices to check.
             m (int): The other index to check.
+
+        Returns:
+            None
         """
         # Goes over each bond and checks if it is between the two given atoms.
         # Removes it if it is.
@@ -117,25 +113,22 @@ class Mol:
             elif (bond[1] == n) and (bond[0] == m):
                 self._bonds.remove(bond)
 
-    def add_bond(self, n, m, type):
-        """Adds a bond of the given type between the two given atoms.
+    def add_bond(self, n, m):
+        """Adds a bond between the two given atoms.
 
         Parameters:
             n (int): One of the indices to bond.
             m (int): The other index to bond.
-            type (str): The type of bond that is between the two given atoms.
-                Must be one of 's', 'd', and 'h'.
+
+        Returns:
+            None
         """
-        if type not in ["s", "d", "h"]:
-            # Raises a ValueError if the bond type is invalid.
-            raise ValueError(f"{type} is not a valid bond type.")
-        elif self.is_bond(n, m) != "n":
+        if self.is_bond(n, m):
             # Raises an AttributeError if there is already a bond between the
             # given atoms.
             raise AttributeError("You cannot add a bond between bonded atoms.")
         else:
-            # If neither error is raised,
-            self._bonds.append([min(n, m), max(n, m), type])
+            self._bonds.append([min(n, m), max(n, m)])
 
     def dist(self, n, m):
         """Calculates the Euclidean distance bewteen the given atoms.
