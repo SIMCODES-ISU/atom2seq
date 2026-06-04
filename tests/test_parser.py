@@ -1,7 +1,7 @@
 from atom2seq import parser
 from atom2seq.classes import Atom, Mol
 
-out_basic = parser.parse("./tests/assets/water.xyz")
+out_basic = parser.parse("./assets/water.xyz")
 assert out_basic == Mol(
     [
         Atom("O", (0, 0, 0)),
@@ -11,7 +11,7 @@ assert out_basic == Mol(
     [],
 )
 
-out_no_num = parser.parse("./tests/assets/water_no_number_of_atoms.xyz")
+out_no_num = parser.parse("./assets/water_no_number_of_atoms.xyz")
 assert out_no_num == Mol(
     [
         Atom("O", (0, 0, 0)),
@@ -21,7 +21,7 @@ assert out_no_num == Mol(
     [],
 )
 
-out_extra_lines = parser.parse("./tests/assets/water_extra_lines.xyz")
+out_extra_lines = parser.parse("./assets/water_extra_lines.xyz")
 assert out_extra_lines == Mol(
     [
         Atom("O", (0, 0, 0)),
@@ -31,7 +31,7 @@ assert out_extra_lines == Mol(
     [],
 )
 
-out_no_lines = parser.parse("./tests/assets/water_no_lines.xyz")
+out_no_lines = parser.parse("./assets/water_no_lines.xyz")
 assert out_no_lines == Mol(
     [
         Atom("O", (0, 0, 0)),

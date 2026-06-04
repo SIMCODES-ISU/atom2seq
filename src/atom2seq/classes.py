@@ -85,15 +85,14 @@ class Mol:
         # bond between these atoms and it has't reached the last bond in the
         # list.
         i = 0
-        found = False
-        while (not found) and (i < len(self._bonds)):
+        while i < len(self._bonds):
             bond = self._bonds[i]
             if (bond[0] == n) and (bond[1] == m):
-                found = True
+                return True
             elif (bond[1] == n) and (bond[0] == m):
-                found = True
+                return True
             i += 1
-        return found
+        return False
 
     def del_bond(self, n, m):
         """Deletes a bond between the two given atoms.

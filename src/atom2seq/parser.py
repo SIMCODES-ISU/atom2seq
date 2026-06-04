@@ -37,18 +37,9 @@ def parse(filename):
             # Split into [symbol, x, y, z], then pop the symbol.
             coords = line.split()
             symbol = coords.pop(0)
-            # Checks if each of the coordinates are valid floats, raising an
-            # error if they are not and converting them into floats if they
-            # are.
+            # Converts the coordinates into floats.
             for i in range(len(coords)):
-                try:
-                    coords[i] = float(coords[i])
-                except ValueError:
-                    raise ValueError(
-                        "One of the coordinate values in the file"
-                        f"{filename} is not a valid floating point"
-                        "number."
-                    )
+                coords[i] = float(coords[i])
             # Appends an atom containing the symbol and coordinates to the
             # list.
             atoms.append(Atom(symbol, tuple(coords)))
