@@ -5,7 +5,7 @@ atoms.
 
 # Installation
 
-TODO: Write me!!
+Install in the normal way you install a python module!
 
 # Acknowledgements
 
