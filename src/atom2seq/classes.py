@@ -123,6 +123,8 @@ class Mol:
         Returns:
             None
         """
+        if n == m:
+            raise
         if self.is_bond(n, m):
             # Raises an AttributeError if there is already a bond between the
             # given atoms.
