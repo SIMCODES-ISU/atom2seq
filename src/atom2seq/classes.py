@@ -72,6 +72,18 @@ class Mol:
         return True
 
     def is_bond(self, n, m):
+        """Detects whether the atoms at indices n and m are bonded.
+
+        Parameters:
+            n (int): One of the indices to check.
+            m (int): The other index to check.
+
+        Returns:
+            str: One of 's', 'd', 'h', 'n'. If 'n', the atoms passed in are not
+                bonded. Otherwise, they are bonded and the letter indicates the
+                type of bond: 's' is single, 'd' is double, and 'h' is
+                hydrogen.
+        """
         # Sets up two tracking variables
         i = 0
         found = False
@@ -91,6 +103,12 @@ class Mol:
         return out
 
     def del_bond(self, n, m):
+        """Deletes a bond between the two given atoms.
+
+        Parameters:
+            n (int): One of the indices to check.
+            m (int): The other index to check.
+        """
         # Goes over each bond and checks if it is between the two given atoms.
         # Removes it if it is.
         for bond in self._bonds:
@@ -100,6 +118,14 @@ class Mol:
                 self._bonds.remove(bond)
 
     def add_bond(self, n, m, type):
+        """Adds a bond of the given type between the two given atoms.
+
+        Parameters:
+            n (int): One of the indices to bond.
+            m (int): The other index to bond.
+            type (str): The type of bond that is between the two given atoms.
+                Must be one of 's', 'd', and 'h'.
+        """
         if type not in ["s", "d", "h"]:
             # Raises a ValueError if the bond type is invalid.
             raise ValueError(f"{type} is not a valid bond type.")
@@ -112,6 +138,12 @@ class Mol:
             self._bonds.append([min(n, m), max(n, m), type])
 
     def dist(self, n, m):
+        """Calculates the Euclidean distance bewteen the given atoms.
+
+        Parameters:
+            n (int): One of the indices to check.
+            m (int): The other index to check.
+        """
         n_coords = self.atoms[n].coords
         m_coords = self.atoms[m].coords
         return math.sqrt(
