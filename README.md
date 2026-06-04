@@ -5,7 +5,7 @@ atoms.
 
 # Installation
 
-Install in the normal way you install a python module!
+Install in the normal way you install a python module! :D
 
 # Acknowledgements
 
