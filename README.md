@@ -9,4 +9,6 @@ TODO: Write me!!
 
 # Acknowledgements
 
-This material is based upon work supported by the National Science Foundation under Grant No. 2348724.
+This material is based upon work supported by the National Science Foundation under Grant No. 2348724. 
+
+Fun fun changes from Carter!
