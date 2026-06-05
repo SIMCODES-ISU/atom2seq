@@ -1,0 +1,7 @@
+
+[dev]
+pytest
+sphinx
+sphinx-rtd-theme
+flake8
+python-semantic-release

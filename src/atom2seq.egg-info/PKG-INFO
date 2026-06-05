@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: atom2seq
+Version: 0.1.0
+Summary: Detects primary structure of proteins given the Cartesian coordinates of the atoms
+Author-email: "Ryan M. Richard" <rrichard@ameslab.gov>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-rtd-theme; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: python-semantic-release; extra == "dev"
+Dynamic: license-file
+
+# atom2seq
+
+Detects primary structure of proteins given the Cartesian coordinates of the 
+atoms.
+
+# Installation
+
+Installation instructions for users are coming soon!
+
+## Development
+All commands assume a Linux-like command line.
+
+1. Obtain the repo from github
+```
+git clone https://github.com/SIMCODES-ISU/atom2seq.git
+```
+
+2. Create a Python virtual environment
+```
+cd atom2seq
+python3 -m venv .venv
+```
+
+3. Activate the virtual environment
+```
+source .venv/bin/activate
+```
+
+4. Install the development dependencies
+```
+pip install ".[dev]"
+```
+
+5. Editable install the repo
+```
+pip install -e .
+```
+
+You can then test the repo by running
+```
+pytest
+```
+
+# Acknowledgements
+
+This material is based upon work supported by the National Science Foundation under Grant No. 2348724.
