@@ -26,9 +26,19 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-4. Editable install the repo
+4. Install the development dependencies
 ```
-pip install -e.[dev]
+pip install ".[dev]"
+```
+
+5. Editable install the repo
+```
+pip install -e .
+```
+
+You can then test the repo by running
+```
+pytest
 ```
 
 # Acknowledgements
