@@ -13,7 +13,6 @@ def parse(filename):
     """
     # Opens the file and reads the lines of the file into a list, then closes
     # the file.
-    print("a")
     file = open(filename, "r")
     raw_content = file.readlines()
     file.close()
