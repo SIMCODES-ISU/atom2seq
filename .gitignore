@@ -10,3 +10,6 @@ venv/
 env/
 .venv/
 .env/
+
+# Ignoring the egg-info directory
+*.egg-info
