@@ -1,7 +1,7 @@
 from atom2seq.classes import Atom, Mol
 
 
-def parse(filename):
+def parse_xyz(filename):
     """Parses the xyz-coordinates of atoms in a molecule stored in PDB format
     and returns a Mol object that has those atoms in it.
 
