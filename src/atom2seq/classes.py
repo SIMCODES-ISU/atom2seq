@@ -51,20 +51,20 @@ class Mol:
     """
 
     def __init__(self, atoms, bonds):
-        self.atoms = atoms
+        self._atoms = atoms
         self._bonds = bonds
 
     def __repr__(self):
-        return f"Mol({self.atoms}, {self._bonds})"
+        return f"Mol({self._atoms}, {self._bonds})"
 
     def __eq__(self, other):
-        if (len(self.atoms) != len(other.atoms)) or (
+        if (len(self._atoms) != len(other.get_atoms())) or (
             len(self._bonds) != len(other.get_bonds())
         ):
             return False
         else:
-            for i in range(len(self.atoms)):
-                if self.atoms[i] != other.atoms[i]:
+            for i in range(len(self._atoms)):
+                if self._atoms[i] != other.get_atoms()[i]:
                     return False
             for j in range(len(self._bonds)):
                 if self._bonds[j] != other.get_bonds()[j]:
@@ -81,9 +81,8 @@ class Mol:
         Returns:
             Boolean: Whether the atoms are bonded.
         """
-        # Sets the output to False, then enters a loop while it hasn't found a
-        # bond between these atoms and it has't reached the last bond in the
-        # list.
+        # Loops over every bond and checks whether that bond is between the two
+        # given atoms
         i = 0
         while i < len(self._bonds):
             bond = self._bonds[i]
@@ -123,11 +122,11 @@ class Mol:
             None
         """
         if n == m:
-            raise
+            raise ValueError("You cannot bond an atom with itself.")
         if self.is_bond(n, m):
             # Raises an AttributeError if there is already a bond between the
             # given atoms.
-            raise AttributeError("You cannot add a bond between bonded atoms.")
+            raise AttributeError("You cannot bond two bonded atoms.")
         else:
             self._bonds.append([min(n, m), max(n, m)])
 
@@ -138,8 +137,8 @@ class Mol:
             n (int): One of the indices to check.
             m (int): The other index to check.
         """
-        n_coords = self.atoms[n].coords
-        m_coords = self.atoms[m].coords
+        n_coords = self._atoms[n].coords
+        m_coords = self._atoms[m].coords
         return math.sqrt(
             (n_coords[0] - m_coords[0]) ** 2
             + (n_coords[1] - m_coords[1]) ** 2
@@ -148,3 +147,34 @@ class Mol:
 
     def get_bonds(self):
         return self._bonds
+
+    def get_atoms(self):
+        return self._atoms
+
+    def del_atom(self, idx):
+        self._atoms.pop(idx)
+        new_bonds = []
+        for i in range(len(self._bonds)):
+            bond = self._bonds[i]
+            if (bond[0] != idx) and (bond[1] != idx):
+                new_bonds.append(bond)
+        for bond in new_bonds:
+            if bond[0] > idx:
+                bond[0] -= 1
+            if bond[1] > idx:
+                bond[1] -= 1
+        self._bonds = new_bonds
+
+    def get_bonded(self, idx):
+        out = []
+        for bond in self._bonds:
+            if bond[0] == idx:
+                out.append(bond[1])
+            elif bond[1] == idx:
+                out.append(bond[0])
+        return out
+
+    def split_molecule(self):
+        # Need to write this by using a tree search algorithm rather than a
+        # loop over the atoms in index order.
+        pass
