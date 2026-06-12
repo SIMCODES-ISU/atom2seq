@@ -53,6 +53,9 @@ class Mol:
     def __init__(self, atoms, bonds):
         self._atoms = atoms
         self._bonds = bonds
+        self._backbone = [False for _ in self._atoms]
+        self._aas = [False for _ in self._atoms]
+        self._n_term = False
 
     def __repr__(self):
         return f"Mol({self._atoms}, {self._bonds})"
@@ -153,6 +156,8 @@ class Mol:
 
     def del_atom(self, idx):
         self._atoms.pop(idx)
+        self._aas.pop(idx)
+        self._backbone.pop(idx)
         new_bonds = []
         for i in range(len(self._bonds)):
             bond = self._bonds[i]
@@ -189,3 +194,24 @@ class Mol:
         # Need to write this by using a tree search algorithm rather than a
         # loop over the atoms in index order.
         pass
+
+    def set_n_term(self, idx):
+        self._n_term = idx
+
+    def get_n_term(self):
+        return self._n_term
+
+    def set_backbone(self, idx_list):
+        for idx in idx_list:
+            self._backbone[idx] = True
+
+    def number_aas(self, idx_list, num_list):
+        for i in range(len(idx_list)):
+            idx, num = idx_list[i], num_list[i]
+            self._aas[idx] = num
+
+    def get_backbone(self):
+        return self._backbone
+
+    def get_aas(self):
+        return self._aas
