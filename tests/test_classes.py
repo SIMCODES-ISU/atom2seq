@@ -146,3 +146,41 @@ def test_number_aas(water):
     test_mol = Mol(*water)
     test_mol.number_aas([0, 2], [0, 1])
     assert test_mol.get_aas() == [0, False, 1]
+
+
+def test_find_submol_1(water):
+    test_mol = Mol(*water)
+    assert test_mol.find_submol(0) == [0, 1, 2]
+
+
+@pytest.fixture
+def water_x2():
+    test_atoms = [
+        Atom("H", [0, 1, 0]),
+        Atom("H", [1, 0, 0]),
+        Atom("O", [0, 0, 0]),
+        Atom("H", [0, 3, 0]),
+        Atom("H", [1, 2, 0]),
+        Atom("O", [0, 2, 0]),
+    ]
+    test_bonds = [[0, 2], [1, 2], [3, 5], [4, 5]]
+    return (test_atoms, test_bonds)
+
+
+def test_find_submol_2(water_x2):
+    test_mol = Mol(*water_x2)
+    assert test_mol.find_submol(0) == [0, 1, 2]
+
+
+def test_del_submol(water, water_x2):
+    test_mol = Mol(*water)
+    test_mol_x2 = Mol(*water_x2)
+    test_mol_x2.del_submol(3)
+    assert test_mol_x2 == test_mol
+
+
+def test_split_submol(water, water_x2):
+    test_mol = Mol(*water)
+    test_mol_x2 = Mol(*water_x2)
+    new_mol = test_mol_x2.split_submol(0)
+    assert new_mol == test_mol

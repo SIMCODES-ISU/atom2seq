@@ -185,15 +185,34 @@ class Mol:
         done = False
         while not done:
             for i in current_idcs:
-                out += {*self.get_bonded(i)}
+                for elt in self.get_bonded(i):
+                    out.add(elt)
                 if out == current_idcs:
                     done = True
-                current_idcs.append(*self.get_bonded(i))
+            for elt in self.get_bonded(i):
+                current_idcs.add(elt)
+        return list(out)
 
-    def split_molecule(self):
-        # Need to write this by using a tree search algorithm rather than a
-        # loop over the atoms in index order.
-        pass
+    def del_submol(self, idx):
+        submol_idcs = self.find_submol(idx)
+        submol_idcs = sorted(submol_idcs, reverse=True)
+        for idx in submol_idcs:
+            self.del_atom(idx)
+
+    def split_submol(self, idx):
+        submol_idcs = self.find_submol(idx)
+        atoms = []
+        bonds = []
+        for idx in submol_idcs:
+            atoms.append(self._atoms[idx])
+        for bond in self._bonds:
+            if bond[0] in submol_idcs:
+                new_bond = [
+                    submol_idcs.index(bond[0]),
+                    submol_idcs.index(bond[1]),
+                ]  # noqa
+                bonds.append(new_bond)
+        return Mol(atoms, bonds)
 
     def set_n_term(self, idx):
         self._n_term = idx
