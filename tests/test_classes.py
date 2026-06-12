@@ -1,10 +1,5 @@
-import sys
-
-import pytest
-
 from atom2seq.classes import Atom, Mol
-
-print(sys.path)
+import pytest
 
 
 @pytest.fixture
