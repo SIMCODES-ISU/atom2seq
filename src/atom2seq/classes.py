@@ -174,6 +174,17 @@ class Mol:
                 out.append(bond[0])
         return out
 
+    def find_submol(self, idx):
+        current_idcs = {idx}
+        out = {idx}
+        done = False
+        while not done:
+            for i in current_idcs:
+                out += {*self.get_bonded(i)}
+                if out == current_idcs:
+                    done = True
+                current_idcs.append(*self.get_bonded(i))
+
     def split_molecule(self):
         # Need to write this by using a tree search algorithm rather than a
         # loop over the atoms in index order.

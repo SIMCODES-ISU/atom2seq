@@ -1,5 +1,6 @@
-from atom2seq.classes import Atom, Mol
 import pytest
+
+from atom2seq.classes import Atom, Mol
 
 
 @pytest.fixture
@@ -135,7 +136,6 @@ def water_shifted():
     return (test_atoms, test_bonds)
 
 
-def test_split_molecule(double_water, water, water_shifted):
+def test_find_submol(double_water, water):
     test_mol = Mol(*double_water)
-    print(test_mol.split_molecule())
-    assert test_mol.split_molecule() == [Mol(*water), Mol(*water_shifted)]
+    assert test_mol.find_submol(0) == Mol(*water)
