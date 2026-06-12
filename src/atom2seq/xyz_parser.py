@@ -2,7 +2,7 @@ from atom2seq.classes import Atom, Mol
 
 
 def parse_xyz(filename):
-    """Parses the xyz-coordinates of atoms in a molecule stored in PDB format
+    """Parses the xyz-coordinates of atoms in a molecule stored in XYZ format
     and returns a Mol object that has those atoms in it.
 
     Parameters:
