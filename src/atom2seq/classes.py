@@ -17,6 +17,12 @@ class Atom:
         return (self.symbol == other.symbol) and (self.coords == other.coords)
 
 
+# Defining this class before putting anything in it so that I can use it for
+# type annotations.
+class Mol:
+    pass
+
+
 class Mol:
     """A class representing a molecule. Supports checking equality."""
 
