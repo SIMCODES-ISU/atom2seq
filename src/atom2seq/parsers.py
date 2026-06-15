@@ -48,6 +48,7 @@ def parse_xyz(filename):
     # the first line and any blank lines that come after it.
     if contents[0][0].isdigit():
         contents.pop(0)
+    contents = [line.split() for line in contents]
 
     return parser_base(contents)
 
