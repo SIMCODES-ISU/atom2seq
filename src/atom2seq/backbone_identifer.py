@@ -4,14 +4,14 @@ from atom2seq.classes import Mol
 def id_n_term(molecule: Mol) -> list[int]:
     out = []
     # loops over the atoms in the molecule.
-    for i in len(molecule.get_atoms):
-        atom = molecule.get_atoms[i]
+    for i in range(len(molecule.get_atoms())):
+        atom = molecule.get_atoms()[i]
         valid = False
         # only considers the atom if it is a nitrogen.
         if atom.symbol == "N":
             # makes list of the symbols of atoms bonded to nitrogen.
             bonds = molecule.get_bonded(i)
-            bonded_syms = [molecule.get_atoms[bond].symbol for bond in bonds]
+            bonded_syms = [molecule.get_atoms()[bond].symbol for bond in bonds]
             # initializes counters and helper variables.
             found_invalid = False
             h_counter = 0
@@ -53,9 +53,10 @@ def small_backbone_iter(
 ) -> list[list[int]]:  # noqa
     new_list = []
     for sublist in listy:
-        next_atoms = find_atom(molecule, listy, step)
+        next_atoms = find_atom(molecule, sublist, step)
         for atom in next_atoms:
-            new_list.append(sublist.append(atom))
+            to_add = sublist + [atom]
+            new_list.append(to_add)
     return new_list
 
 
@@ -66,24 +67,24 @@ def large_backbone_iter(
     if len(plus_c) != 0:
         plus_c = small_backbone_iter(molecule, plus_c, "C")
         if len(plus_c) != 0:
-            plus_o = small_backbone_iter(molecule, plus_c, "O")
-            if len(plus_o) != 0:
-                plus_h = find_atom(molecule, plus_o, "H")
-                if (len(plus_h) == 1) or (len(plus_h) == 0):
-                    return plus_o, True
             plus_n = small_backbone_iter(molecule, plus_c, "N")
             if len(plus_n) != 0:
                 return plus_n, False
+            plus_o = small_backbone_iter(molecule, plus_c, "O")
+            if len(plus_o) != 0:
+                return plus_o, True
             else:
-                raise Exception(
+                raise ValueError(
                     "This molecule is not a protein as it has no backbone."
                 )  # noqa
         else:
-            raise Exception(
+            raise ValueError(
                 "This molecule is not a protein as it has no backbone."
             )  # noqa
     else:
-        raise Exception("This molecule is not a protein as it has no backbone.")  # noqa
+        raise ValueError(
+            "This molecule is not a protein as it has no backbone."
+        )  # noqa
 
 
 def find_backbone(molecule: Mol) -> list[int]:
@@ -94,7 +95,7 @@ def find_backbone(molecule: Mol) -> list[int]:
     while not found:
         paths, found = large_backbone_iter(molecule, paths)
         i += 1
-        if i > 2 * len(molecule.atoms):
+        if i > 2 * len(molecule.get_atoms()):
             raise RecursionError("While loop maximum depth exceeded.")
     return paths[0]
 
