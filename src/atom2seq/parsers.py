@@ -1,7 +1,7 @@
 from atom2seq.classes import Atom, Mol
 
 
-def file_base(filename):
+def file_base(filename: str) -> list[str]:
     """Returns the stripped .readlines() of a passed file."""
     file = open(filename, "r")
     contents = file.readlines()
@@ -10,7 +10,7 @@ def file_base(filename):
     return contents
 
 
-def parser_base(contents):
+def parser_base(contents: list[list[str | int]]) -> Mol:
     """Takes in a list of lists of atomic symbols and their coordinates and
     returns a Mol containing all those atoms."""
     # Removes blank lines, changes any integers to be ints, and then returns a
@@ -24,7 +24,7 @@ def parser_base(contents):
     return Mol(atoms, [])
 
 
-def parse_bean(filename):
+def parse_bean(filename: str) -> Mol:
     """Parses the coordinates of a Molecule stored in .bean format and returns
     a Mol object containing those atoms."""
     contents = file_base(filename)
@@ -39,7 +39,7 @@ def parse_bean(filename):
     return parser_base(contents)
 
 
-def parse_xyz(filename):
+def parse_xyz(filename: str) -> Mol:
     """Parses the coordinates of a Molecule stored in .xyz format and returns a
     Mol object containing those atoms."""
     contents = file_base(filename)
@@ -53,7 +53,7 @@ def parse_xyz(filename):
     return parser_base(contents)
 
 
-def parse_pdb(filename):
+def parse_pdb(filename: str) -> Mol:
     """Parses the coordinates of a Molecule stored in .pdb format and returns a
     Mol object containing those atoms."""
     contents = file_base(filename)
@@ -64,7 +64,7 @@ def parse_pdb(filename):
     return parser_base(contents)
 
 
-def parse_cif(filename):
+def parse_cif(filename: str) -> Mol:
     """Parses the coordinates of a Molecule stored in .cif format and returns a
     Mol object containing those atoms."""
     contents = file_base(filename)
