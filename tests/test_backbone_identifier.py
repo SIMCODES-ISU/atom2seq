@@ -1,7 +1,6 @@
 import pytest
 
 from atom2seq import backbone_identifer as bid
-from atom2seq.classes import Atom, Mol
 from atom2seq.parsers import parse_xyz
 
 prefix = __file__.removesuffix("test_backbone_identifier.py")
@@ -9,7 +8,7 @@ prefix = __file__.removesuffix("test_backbone_identifier.py")
 
 @pytest.fixture
 def glycine():
-    gly = parse_xyz(prefix + "assets/glycine.xyz")
+    gly = parse_xyz(prefix + "assets/backbone_identifier_tests/glycine.xyz")
     gly.add_bond(0, 1)
     gly.add_bond(1, 2)
     gly.add_bond(2, 3)
@@ -63,7 +62,7 @@ def test_label_backbone_G(glycine):
 
 @pytest.fixture
 def gay():
-    glyAlaTyr = parse_xyz(prefix + "assets/gay.xyz")
+    glyAlaTyr = parse_xyz(prefix + "assets/backbone_identifier_tests/gay.xyz")
     glyAlaTyr.add_bond(0, 1)
     glyAlaTyr.add_bond(1, 2)
     glyAlaTyr.add_bond(1, 4)
@@ -73,36 +72,38 @@ def gay():
     glyAlaTyr.add_bond(6, 7)
     glyAlaTyr.add_bond(6, 8)
     glyAlaTyr.add_bond(8, 11)
-    glyAlaTyr.add_bond(9, 12)
-    glyAlaTyr.add_bond(10, 11)
+    glyAlaTyr.add_bond(9, 10)
+    glyAlaTyr.add_bond(10, 13)
     glyAlaTyr.add_bond(11, 12)
-    glyAlaTyr.add_bond(11, 15)
     glyAlaTyr.add_bond(12, 13)
-    glyAlaTyr.add_bond(12, 14)
-    glyAlaTyr.add_bond(15, 16)
-    glyAlaTyr.add_bond(15, 19)
-    glyAlaTyr.add_bond(17, 21)
-    glyAlaTyr.add_bond(18, 22)
-    glyAlaTyr.add_bond(19, 24)
+    glyAlaTyr.add_bond(12, 16)
+    glyAlaTyr.add_bond(13, 14)
+    glyAlaTyr.add_bond(13, 15)
+    glyAlaTyr.add_bond(16, 17)
+    glyAlaTyr.add_bond(16, 21)
+    glyAlaTyr.add_bond(18, 23)
+    glyAlaTyr.add_bond(19, 20)
     glyAlaTyr.add_bond(20, 25)
-    glyAlaTyr.add_bond(21, 22)
     glyAlaTyr.add_bond(21, 26)
     glyAlaTyr.add_bond(22, 27)
     glyAlaTyr.add_bond(23, 24)
-    glyAlaTyr.add_bond(24, 25)
-    glyAlaTyr.add_bond(24, 33)
+    glyAlaTyr.add_bond(23, 28)
+    glyAlaTyr.add_bond(24, 29)
     glyAlaTyr.add_bond(25, 26)
-    glyAlaTyr.add_bond(25, 30)
-    glyAlaTyr.add_bond(26, 31)
+    glyAlaTyr.add_bond(26, 27)
+    glyAlaTyr.add_bond(26, 35)
     glyAlaTyr.add_bond(27, 28)
     glyAlaTyr.add_bond(27, 32)
-    glyAlaTyr.add_bond(28, 29)
-    glyAlaTyr.add_bond(31, 35)
-    glyAlaTyr.add_bond(31, 32)
-    glyAlaTyr.add_bond(32, 36)
+    glyAlaTyr.add_bond(28, 33)
+    glyAlaTyr.add_bond(29, 30)
+    glyAlaTyr.add_bond(29, 34)
+    glyAlaTyr.add_bond(30, 31)
     glyAlaTyr.add_bond(33, 34)
     glyAlaTyr.add_bond(33, 37)
-    glyAlaTyr.add_bond(37, 38)
+    glyAlaTyr.add_bond(34, 38)
+    glyAlaTyr.add_bond(35, 36)
+    glyAlaTyr.add_bond(35, 39)
+    glyAlaTyr.add_bond(39, 40)
     return glyAlaTyr
 
 
