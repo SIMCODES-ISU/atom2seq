@@ -78,15 +78,18 @@ def parse_cif(filename):
     file = open(filename, "r")
     contents = file.readlines()
     file.close()
-    print(contents)
     contents = [line.strip() for line in contents if line[0:4] == "ATOM"]
-    print(contents)
-    contents = [[line.split()[2], *line.split()[8:11]] for line in contents]
-    print(contents)
+    contents = [[line.split()[2], *line.split()[10:13]] for line in contents]
     contents = [
-        [int(elt) if elt.isdigit() else elt for elt in listy]
+        [
+            (
+                float(elt)
+                if elt.replace(".", "").replace("-", "").isdigit()
+                else elt  # noqa
+            )  # noqa
+            for elt in listy
+        ]  # noqa
         for listy in contents  # noqa
     ]
-    print(contents)
     atoms = [Atom(line[0], tuple(line[1:])) for line in contents]
     return Mol(atoms, [])

@@ -6,15 +6,12 @@ def id_n_term(molecule: Mol) -> list[int]:
     # loops over the atoms in the molecule.
     for i in range(len(molecule.get_atoms())):
         atom = molecule.get_atoms()[i]
-        print(f"{atom=}")
         valid = False
         # only considers the atom if it is a nitrogen.
         if atom.symbol == "N":
-            print(f"Nitrogen {atom=}")
             # makes list of the symbols of atoms bonded to nitrogen.
             bonds = molecule.get_bonded(i)
             bonded_syms = [molecule.get_atoms()[bond].symbol for bond in bonds]
-            print(f"{bonded_syms=}")
             # initializes counters and helper variables.
             found_invalid = False
             h_counter = 0
@@ -24,24 +21,17 @@ def id_n_term(molecule: Mol) -> list[int]:
                 # any other atom triggers the found_invalid flag.
                 if sym == "H":
                     h_counter += 1
-                    print(f"H: {h_counter=}")
                 elif sym == "C":
                     c_counter += 1
-                    print(f"C: {c_counter=}")
                 else:
-                    print("found invalid")
                     found_invalid = True
             # if the found_invalid flag was not triggered, then we check if it
             # is in a non-Proline AA.
             if not found_invalid:
-                print("not found invalid")
-                print(f"{c_counter=}")
-                print(f"{h_counter=}")
                 if c_counter == 1:
                     if h_counter == 2 or h_counter == 3:
                         valid = True
             if valid:
-                print("valid")
                 out.append(i)
     return out
 
@@ -51,15 +41,12 @@ def id_pro_n_term(molecule: Mol) -> list[int]:
     # loops over the atoms in the molecule.
     for i in range(len(molecule.get_atoms())):
         atom = molecule.get_atoms()[i]
-        print(f"{atom=}")
         valid = False
         # only considers the atom if it is a nitrogen.
         if atom.symbol == "N":
-            print(f"Nitrogen {atom=}")
             # makes list of the symbols of atoms bonded to nitrogen.
             bonds = molecule.get_bonded(i)
             bonded_syms = [molecule.get_atoms()[bond].symbol for bond in bonds]
-            print(f"{bonded_syms=}")
             # initializes counters and helper variables.
             found_invalid = False
             h_counter = 0
@@ -69,19 +56,13 @@ def id_pro_n_term(molecule: Mol) -> list[int]:
                 # any other atom triggers the found_invalid flag.
                 if sym == "H":
                     h_counter += 1
-                    print(f"H: {h_counter=}")
                 elif sym == "C":
                     c_counter += 1
-                    print(f"C: {c_counter=}")
                 else:
-                    print("found invalid")
                     found_invalid = True
             # if the found_invalid flag was not triggered, then we check if it
             # is in a Proline.
             if not found_invalid:
-                print("not found invalid")
-                print(f"{c_counter=}")
-                print(f"{h_counter=}")
                 j = 0
                 if (c_counter == 2) and (h_counter == 1):
                     # finds all carbons bonded to the nitrogen
@@ -107,13 +88,11 @@ def id_pro_n_term(molecule: Mol) -> list[int]:
                 if j != 0:
                     valid = True
             if valid:
-                print("valid")
                 out.append(i)
     return out
 
 
 def find_atom(molecule: Mol, listy: list, sym: str) -> list[int]:
-    print(f"Finding a {sym} in the molecule bonded to {listy}")
     idx = listy[-1]
     bonds = molecule.get_bonded(idx)
     out = []
@@ -126,7 +105,6 @@ def find_atom(molecule: Mol, listy: list, sym: str) -> list[int]:
 def small_backbone_iter(
     molecule: Mol, listy: list, step: str
 ) -> list[list[int]]:  # noqa
-    print(f"Running a small iteration with step {step} w/ {listy}")
     new_list = []
     for sublist in listy:
         next_atoms = find_atom(molecule, sublist, step)
@@ -141,7 +119,6 @@ def small_backbone_iter(
 def large_backbone_iter(
     molecule: Mol, listy: list
 ) -> tuple[list[list[int]], bool]:  # noqa
-    print(f"Running a large iteration w/ {listy}")
     plus_c = small_backbone_iter(molecule, listy, "C")
     if len(plus_c) != 0:
         plus_c = small_backbone_iter(molecule, plus_c, "C")

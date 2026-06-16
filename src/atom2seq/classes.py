@@ -148,6 +148,21 @@ class Mol:
             + (n_coords[2] - m_coords[2]) ** 2
         )
 
+    def squared_dist(self, n, m):
+        """Calculates the squared Euclidean distance bewteen the given atoms.
+
+        Parameters:
+            n (int): One of the indices to check.
+            m (int): The other index to check.
+        """
+        n_coords = self._atoms[n].coords
+        m_coords = self._atoms[m].coords
+        return (
+            (n_coords[0] - m_coords[0]) * (n_coords[0] - m_coords[0])
+            + (n_coords[1] - m_coords[1]) * (n_coords[1] - m_coords[1])
+            + (n_coords[2] - m_coords[2]) * (n_coords[2] - m_coords[2])
+        )
+
     def get_bonds(self):
         return self._bonds
 
