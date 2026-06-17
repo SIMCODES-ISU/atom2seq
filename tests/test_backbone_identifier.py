@@ -159,3 +159,30 @@ def test_label_backbone_GAS(gas):
         False,
         False,
     ]
+
+
+aas = [
+    "alanine",
+    "arginine",
+    "asparagine",
+    "aspartate",
+    "cysteine",
+    "glutamate",
+    "glycine",
+    "histidine",
+    "isoleucine",
+    "leucine",
+    "lysine",
+    "methionine",
+    "phenylalanine",
+    "proline",
+    "serine",
+    "threonine",
+    "tryptophan",
+    "tyrosine",
+    "valine",
+]
+
+
+def test_all_aas():
+    pass

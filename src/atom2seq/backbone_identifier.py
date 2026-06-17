@@ -33,6 +33,7 @@ def id_n_term(molecule: Mol) -> list[int]:
                         valid = True
             if valid:
                 out.append(i)
+    print(f"N-terms = {out}")
     return out
 
 
@@ -89,6 +90,7 @@ def id_pro_n_term(molecule: Mol) -> list[int]:
                     valid = True
             if valid:
                 out.append(i)
+    print(f"Proline N-terms = {out}")
     return out
 
 
@@ -105,14 +107,21 @@ def find_atom(molecule: Mol, listy: list, sym: str) -> list[int]:
 def small_backbone_iter(
     molecule: Mol, listy: list, step: str
 ) -> list[list[int]]:  # noqa
+    print(f"Finding a {step}")
     new_list = []
     for sublist in listy:
         next_atoms = find_atom(molecule, sublist, step)
+        print(f"{sublist=}, {next_atoms=}")
         for atom in next_atoms:
             if atom not in sublist:
                 if ((step == "O") and (len(next_atoms) > 1)) or (step != "O"):
+                    print(f"index {atom} is a valid next step")
                     to_add = sublist + [atom]
                     new_list.append(to_add)
+                else:
+                    print(f"index {atom} is not a valid next step")
+            else:
+                print(f"index {atom} already in sublist")
     return new_list
 
 
