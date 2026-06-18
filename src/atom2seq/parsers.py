@@ -17,7 +17,14 @@ def parser_base(contents: list[list[str | int]]) -> Mol:
     # Mol containing atoms made from each element of contents and no bonds.
     contents = [line for line in contents if line]
     contents = [
-        [int(elt) if elt.isdigit() else elt for elt in listy]
+        [
+            (
+                float(elt)
+                if elt.replace(".", "").replace("-", "").isdigit()
+                else elt  # noqa
+            )  # noqa
+            for elt in listy
+        ]  # noqa
         for listy in contents  # noqa
     ]
     atoms = [Atom(listy[0], tuple(listy[1:])) for listy in contents]

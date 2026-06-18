@@ -108,6 +108,7 @@ class Mol:
     def del_atom(self, idx: int) -> None:
         """Deletes the given atom from the list of atoms, also updating the
         lists of bonds, sidechain numbering, and backbone list."""
+        print(f"deleting {self._atoms[idx]}")
         # Removes the given index from the three lists that use this indexing
         # system.
         self._atoms.pop(idx)
