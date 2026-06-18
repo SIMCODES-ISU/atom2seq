@@ -59,7 +59,11 @@ def parse_pdb(filename: str) -> Mol:
     contents = file_base(filename)
 
     contents = [line for line in contents if line[0:4] == "ATOM"]
-    contents = [[line.split()[-1], *line.split()[-6:-3]] for line in contents]
+    contents = [
+        [line.split()[-1], *line.split()[-6:-3]]
+        for line in contents
+        if line.split()[-8] == "A"
+    ]
 
     return parser_base(contents)
 
@@ -70,6 +74,10 @@ def parse_cif(filename: str) -> Mol:
     contents = file_base(filename)
 
     contents = [line for line in contents if line[0:4] == "ATOM"]
-    contents = [[line.split()[2], *line.split()[8:11]] for line in contents]
+    contents = [
+        [line.split()[2], *line.split()[10:13]]
+        for line in contents
+        if line.split()[6] == "A"
+    ]
 
     return parser_base(contents)
