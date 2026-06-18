@@ -79,22 +79,15 @@ def glycine():
 
 def test_glycine(glycine):
     bond_mol(glycine)
-    glycine_bonds = [
-        [5, 6],
-        [4, 5],
-        [4, 7],
-        [0, 4],
-        [0, 8],
-        [0, 9],
-        [1, 2],
-        [1, 3],
-        [0, 1],
-    ]
-    found_non_bond = False
-    for bond in glycine.get_bonds():
-        if bond not in glycine_bonds:
-            found_non_bond = True
-        else:
-            glycine_bonds.remove(bond)
-    print(glycine.get_bonds())
-    assert (not found_non_bond) and (len(glycine_bonds) == 0)
+    glycine_bonds = {
+        (5, 6),
+        (4, 5),
+        (4, 7),
+        (0, 4),
+        (0, 8),
+        (0, 9),
+        (1, 2),
+        (1, 3),
+        (0, 1),
+    }
+    set([tuple(bond) for bond in glycine.get_bonds()]) == glycine_bonds
