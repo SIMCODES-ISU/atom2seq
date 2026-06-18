@@ -180,6 +180,7 @@ class Mol:
                     submol_idcs.index(bond[1]),
                 ]  # noqa
                 bonds.append(new_bond)
+        self.del_submol(idx)
         return Mol(atoms, bonds)
 
     def set_n_term(self, idx: int) -> None:
