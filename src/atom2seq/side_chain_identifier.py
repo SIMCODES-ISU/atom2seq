@@ -79,9 +79,9 @@ def ile_or_leu(r_group):
                 if r_group.get_atoms()[j].symbol == "C"  # noqa
             ]
             if len(bonded_carbons) == 3:
-                out = "I"
+                out = "L"
     if out == "I/L":
-        out = "L"
+        out = "I"
     return out
 
 
