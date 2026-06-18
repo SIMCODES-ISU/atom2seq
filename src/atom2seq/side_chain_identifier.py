@@ -23,29 +23,79 @@ aa_dict = {
 }
 
 
-def id_side_chains(molecule: Mol) -> list[str]:
+def update_idx_del(molecule: Mol, current_idx: int, del_sym: str) -> int:
+    to_del = []
     old_idx = False
-    current_idx = molecule.get_n_term()
     new_current_idx = False
+    for i in molecule.get_bonded(current_idx):
+        if molecule.get_backbone()[i]:
+            old_idx = current_idx
+            new_current_idx = i
+        if molecule.get_atoms()[i].symbol == del_sym:
+            to_del.append(i)
+    for i in sorted(to_del, reverse=True):
+        molecule.del_atom(i)
+    molecule.del_atom(old_idx)
+    if new_current_idx > old_idx:
+        current_idx = new_current_idx - 1
+    else:
+        current_idx = new_current_idx
+    return current_idx
+
+
+def update_idx_delH_find_Rgroup(molecule: Mol, current_idx: int) -> tuple[int]:
+    to_del = []
+    old_idx = False
+    new_current_idx = False
+    r_group_idx = False
+    for i in molecule.get_bonded(current_idx):
+        if molecule.get_backbone()[i]:
+            old_idx = current_idx
+            new_current_idx = i
+        elif len(molecule.get_bonded(i)) != 3:
+            r_group_idx = i
+        elif molecule.get_atoms()[i].symbol == "H":
+            to_del.append(i)
+    for i in sorted(to_del, reverse=True):
+        molecule.del_atom(i)
+    molecule.del_atom(old_idx)
+    if new_current_idx > old_idx:
+        current_idx = new_current_idx - 1
+    else:
+        current_idx = new_current_idx
+    return (current_idx, r_group_idx)
+
+
+def ile_or_leu(r_group):
+    out = "I/L"
+    for i in range(len(r_group)):
+        atom = r_group.get_atoms()[i]
+        # Checks how many carbons each carbon is bonded to. If one of
+        # them has 3, then it is isoleucine.
+        if atom.symbol == "C":
+            bonded_carbons = [
+                j
+                for j in r_group.get_bonded(i)
+                if r_group.get_atoms()[j].symbol == "C"  # noqa
+            ]
+            if len(bonded_carbons) == 3:
+                out = "I"
+    if out == "I/L":
+        out = "L"
+    return out
+
+
+def id_side_chains(molecule: Mol) -> list[str]:
+    print(f"{molecule=}")
+    current_idx = molecule.get_n_term()
     out = []
+    num_iter = 0
     while len(molecule.get_atoms()) > 1:
+        num_iter += 1
+        print(f"{num_iter=}, {len(molecule.get_atoms())=}")
         # Finds the next step in the backbone (it will be the alpha carbon) and
         # deletes any hydrogens connected to this nitrogen.
-        to_del = []
-        for i in molecule.get_bonded(current_idx):
-            if molecule.get_backbone()[i]:
-                old_idx = current_idx
-                new_current_idx = i
-            if molecule.get_atoms()[i].symbol == "H":
-                to_del.append(i)
-        for i in sorted(to_del, reverse=True):
-            molecule.del_atom(i)
-        if new_current_idx > old_idx:
-            current_idx = new_current_idx - 1
-        else:
-            current_idx = new_current_idx
-        # Deletes the atom we were just at.
-        molecule.del_atom(old_idx)
+        current_idx = update_idx_del(molecule, current_idx, "H")
         # Finds how many hydrogens are bonded to the alpha carbon. If it is 2,
         # this is a glycine and the R-group will be deleted, so we set the
         # R-group prematurely.
@@ -56,38 +106,17 @@ def id_side_chains(molecule: Mol) -> list[str]:
         r_group = False
         r_group_idx = False
         if numH == 2:
-            to_del = []
-            for i in molecule.get_bonded(current_idx):
-                if molecule.get_atoms()[i].symbol == "H":
-                    to_del.append(i)
-                elif molecule.get_backbone()[i]:
-                    old_idx = current_idx
-                    new_current_idx = i
+            current_idx = update_idx_del(molecule, current_idx, "H")
             r_group = Mol([Atom("H", (0, 0, 0))], [])
         else:
             # Deletes all hydrogens bonded to the alpha carbon. Now, the only
             # two things bonded to the alpha carbon are a carbon with 3 bonds
             # (in the carboxylic acid) and the start of the R-group.
-            to_del = []
-            for i in molecule.get_bonded(current_idx):
-                if molecule.get_atoms()[i].symbol == "H":
-                    to_del.append(i)
-                elif len(molecule.get_bonded(i)) != 3:
-                    r_group_idx = i
-                elif molecule.get_backbone()[i]:
-                    old_idx = current_idx
-                    new_current_idx = i
-        for i in sorted(to_del, reverse=True):
-            molecule.del_atom(i)
-
-        # Deletes the alpha carbon. Now, the r-group is seperated from the rest
-        # of the protein, so we can extract it with split_submol().
-        molecule.del_atom(old_idx)
-        if new_current_idx > old_idx:
-            current_idx = new_current_idx - 1
-        else:
-            current_idx = new_current_idx
-        if not r_group:
+            current_idx, r_group_idx = update_idx_delH_find_Rgroup(
+                molecule, current_idx
+            )
+        if (not r_group) and (r_group_idx):
+            print(f"{r_group_idx=}, {molecule=}")
             r_group = molecule.split_submol(r_group_idx)
         r_group_makeup = [0, 0, 0, 0, 0]
         for atom in r_group.get_atoms():
@@ -104,34 +133,7 @@ def id_side_chains(molecule: Mol) -> list[str]:
         symbol = aa_dict[tuple(r_group_makeup)]
         real_symbol = symbol
         if symbol == "I/L":
-            for i in range(len(r_group)):
-                atom = r_group.get_atoms()[i]
-                # Checks how many carbons each carbon is bonded to. If one of
-                # them has 3, then it is isoleucine.
-                if atom.symbol == "C":
-                    bonded_carbons = [
-                        j
-                        for j in r_group.get_bonded(i)
-                        if r_group.get_atoms()[j].symbol == "C"
-                    ]
-                    if len(bonded_carbons) == 3:
-                        real_symbol = "I"
-            if real_symbol == "I/L":
-                real_symbol = "L"
+            real_symbol = ile_or_leu(r_group)
         out.append(real_symbol)
-        for i in molecule.get_bonded(current_idx):
-            if molecule.get_backbone()[i]:
-                old_idx = current_idx
-                new_current_idx = i
-        if new_current_idx > old_idx:
-            current_idx = new_current_idx - 1
-        else:
-            current_idx = new_current_idx
-        to_del = []
-        for i in molecule.get_bonded(old_idx):
-            if molecule.get_atoms()[i].symbol == "O":
-                to_del.append(i)
-        for i in sorted(to_del, reverse=True):
-            molecule.del_atom(i)
-        molecule.del_atom(old_idx)
+        current_idx = update_idx_del(molecule, current_idx, "O")
     return out
