@@ -1,5 +1,3 @@
-# document where you got the geometries from (and the units) before you forget
-
 # *.gjf files generated using HF/6-31G(d) OPT Geom by using Gaussian software 
 # *.nwc files generated using Nova and NWChem
 #   *.nwc files have xyz coordinates in angstroms (scale by  1.889725989 to convert to a.u.)
