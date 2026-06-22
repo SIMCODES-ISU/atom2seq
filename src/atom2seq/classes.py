@@ -145,18 +145,20 @@ class Mol:
         """Returns a list of all indices connected to the atom at index idx."""
         # Initializes the current indices and the list to be returned.
         current_idcs = {idx}
+        print(f"{current_idcs=}")
         out = {idx}
+        print(f"{out=}")
         done = False
         while not done:
-            index = 0
             for i in current_idcs:
                 for elt in self.get_bonded(i):
                     out.add(elt)
+                    print(f"{out=}")
                 if out == current_idcs:
                     done = True
-                index = i
-            for elt in self.get_bonded(index):
+            for elt in out:
                 current_idcs.add(elt)
+                print(f"{current_idcs=}")
         return list(out)
 
     def del_submol(self, idx: int) -> None:
