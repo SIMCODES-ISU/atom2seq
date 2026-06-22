@@ -1,7 +1,7 @@
 import pytest
 
 from atom2seq.classes import Atom, Mol
-from atom2seq.parsers import parse_bean, parse_cif, parse_pdb, parse_xyz
+from atom2seq.parsers import parse_cif, parse_gjf, parse_pdb, parse_xyz
 
 prefix = __file__.removesuffix("test_parsers.py")
 
@@ -13,8 +13,8 @@ def water_mol():
     )  # noqa
 
 
-def test_bean_parser(water_mol):
-    assert parse_bean(prefix + "assets/parser_tests/water.bean") == water_mol
+def test_gjf_parser(water_mol):
+    assert parse_gjf(prefix + "assets/parser_tests/water.bean") == water_mol
 
 
 def test_xyz_basic(water_mol):

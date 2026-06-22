@@ -1,0 +1,1 @@
+from atom2seq.detect_primary_structure import detect_primary_structure
