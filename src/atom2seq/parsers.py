@@ -31,9 +31,9 @@ def parser_base(contents: list[list[str | int]]) -> Mol:
     return Mol(atoms, [])
 
 
-def parse_bean(filename: str) -> Mol:
-    """Parses the coordinates of a Molecule stored in .bean format and returns
-    a Mol object containing those atoms."""
+def parse_gjf(filename: str) -> Mol:
+    """Parses the coordinates of a Molecule stored in .gjf format and returns a
+    Mol object containing those atoms."""
     contents = file_base(filename)
 
     new_contents = ""
@@ -86,5 +86,13 @@ def parse_cif(filename: str) -> Mol:
         for line in contents
         if line.split()[6] == "A"
     ]
+
+    return parser_base(contents)
+
+
+def parse_nwc(filename: str) -> Mol:
+    contents = file_base(filename)
+
+    contents = [[line.split()[1], *line.split()[3:]] for line in contents]
 
     return parser_base(contents)
