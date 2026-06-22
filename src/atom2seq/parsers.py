@@ -88,3 +88,11 @@ def parse_cif(filename: str) -> Mol:
     ]
 
     return parser_base(contents)
+
+
+def parse_nwc(filename: str) -> Mol:
+    contents = file_base(filename)
+
+    contents = [[line.split()[1], *line.split()[3:]] for line in contents]
+
+    return parser_base(contents)
