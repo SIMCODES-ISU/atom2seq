@@ -108,6 +108,7 @@ class Mol:
     def del_atom(self, idx: int) -> None:
         """Deletes the given atom from the list of atoms, also updating the
         lists of bonds, sidechain numbering, and backbone list."""
+        print("deleting ", self._atoms[idx])
         # Removes the given index from the three lists that use this indexing
         # system.
         self._atoms.pop(idx)
@@ -144,18 +145,20 @@ class Mol:
         """Returns a list of all indices connected to the atom at index idx."""
         # Initializes the current indices and the list to be returned.
         current_idcs = {idx}
+        print(f"{current_idcs=}")
         out = {idx}
+        print(f"{out=}")
         done = False
         while not done:
-            index = 0
             for i in current_idcs:
                 for elt in self.get_bonded(i):
                     out.add(elt)
+                    print(f"{out=}")
                 if out == current_idcs:
                     done = True
-                index = i
-            for elt in self.get_bonded(index):
+            for elt in out:
                 current_idcs.add(elt)
+                print(f"{current_idcs=}")
         return list(out)
 
     def del_submol(self, idx: int) -> None:
@@ -180,6 +183,7 @@ class Mol:
                     submol_idcs.index(bond[1]),
                 ]  # noqa
                 bonds.append(new_bond)
+        self.del_submol(idx)
         return Mol(atoms, bonds)
 
     def set_n_term(self, idx: int) -> None:
